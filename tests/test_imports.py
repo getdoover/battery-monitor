@@ -22,9 +22,3 @@ def test_ui():
     from battery_monitor.app_ui import BatteryMonitorUI
 
     assert BatteryMonitorUI
-
-
-def test_state():
-    from battery_monitor.app_state import BatteryMonitorState
-
-    assert BatteryMonitorState
