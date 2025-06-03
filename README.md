@@ -1,38 +1,9 @@
-# Doover Application Template
+# Battery Monitor
 
-This repository serves as a template for creating Doover applications.
+This application allows you to monitor the state of a battery pack in 12V, 24 or 48V configurations. 
 
-It provides a structured layout for application code, deployment configurations, simulators, and tests. The template is
-designed to simplify the development and deployment of Doover-compatible applications.
+It exposes config that allows you to set the pack size, and then sets some reasonable values for "Low", "OK", "Charging" and "High".
 
-The basic structure of the repository is as follows:
-
-## Getting Started
-
-```
-README.md           <-- This file
-pyproject.toml      <-- Python project configuration file (including dependencies)
-Dockerfile          <-- Dockerfile for building the application image
-doover_config.json  <-- Configuration file for doover
-
-src/battery_monitor/   <-- Application directory
-  application.py    <-- Main application code
-  app_config.py     <-- Config schema definition
-  app_ui.py         <-- UI code (if applicable)
-  app_state.py      <-- State machine (if applicable)
-
-simulator/
-  app_config.json   <-- Sample configuration for the simulator
-  docker-compose.yml <-- Docker Compose file for the simulator
-  
-tests/
-    test_imports.py  <-- Test file for the application
-```
-
-The `doover_config.json` file is the doover configuration file for the application. 
-
-It defines all metadata about the application, including name, short and long description, 
-dependent apps, image name, owner organisation, container registry and more.
 
 ### Prerequisites
 

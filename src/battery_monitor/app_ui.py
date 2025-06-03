@@ -1,36 +1,60 @@
 from pydoover import ui
 
+from src.battery_monitor.app_config import SystemVoltage
+
+LOW_MAP = {
+    SystemVoltage.V12: (0, 12),
+    SystemVoltage.V24: (0, 24),
+    SystemVoltage.V48: (0, 48),
+}
+
+OK_MAP = {
+    SystemVoltage.V12: (12, 13),
+    SystemVoltage.V24: (24, 26),
+    SystemVoltage.V48: (48, 52),
+}
+
+CHARGING_MAP = {
+    SystemVoltage.V12: (13, 14.5),
+    SystemVoltage.V24: (26, 29),
+    SystemVoltage.V48: (52, 58),
+}
+
+HIGH_MAP = {
+    SystemVoltage.V12: (14.5, 100),
+    SystemVoltage.V24: (29, 50),
+    SystemVoltage.V48: (58, 100),
+}
+
+LOW_ALERT_MAP = {
+    SystemVoltage.V12: (6, 11),
+    SystemVoltage.V24: (12, 23),
+    SystemVoltage.V48: (24, 47),
+}
+
 
 class BatteryMonitorUI:
-    def __init__(self):
-        self.is_working = ui.BooleanVariable("is_working", "We Working?")
-        self.uptime = ui.DateTimeVariable("uptime", "Started")
-
-        self.send_alert = ui.Action("send_alert", "Send message as alert", position=1)
-        self.text_parameter = ui.TextParameter("test_message", "Put in a message")
-
-        self.test_output = ui.TextVariable("test_output", "This is message we got")
-
-        self.battery = ui.Submodule("battery", "Battery Module")
+    def __init__(self, system_voltage: SystemVoltage):
         self.battery_voltage = ui.NumericVariable(
-            "voltage", "Battery Voltage", precision=2, ranges=[
-                ui.Range("Low", 0, 10, ui.Colour.red),
-                ui.Range("Normal", 10, 20, ui.Colour.green),
-                ui.Range("High", 20, 30, ui.Colour.blue),
-            ])
+            "voltage",
+            "Battery Voltage",
+            precision=2,
+            ranges=[
+                ui.Range("Low", *LOW_MAP[system_voltage], ui.Colour.yellow),
+                ui.Range("OK", *OK_MAP[system_voltage], ui.Colour.blue),
+                ui.Range("Charging", *CHARGING_MAP[system_voltage], ui.Colour.green),
+                ui.Range("High", *HIGH_MAP[system_voltage], ui.Colour.red),
+            ],
+        )
 
-        self.battery_low_voltage_alert = ui.NumericParameter("low_voltage_alert", "Low Voltage Alert")
-        self.battery_charge_mode = ui.StateCommand("charge_mode", "Charge Mode", user_options=[
-            ui.Option("charge", "Charge"),
-            ui.Option("discharge", "Discharge"),
-            ui.Option("idle", "Idle")
-        ])
-        self.battery.add_children(self.battery_voltage, self.battery_low_voltage_alert, self.battery_charge_mode)
+        self.battery_low_voltage_alert = ui.Slider(
+            "low_voltage_alert",
+            "Low Voltage Alert",
+            *LOW_ALERT_MAP[system_voltage],
+        )
 
     def fetch(self):
-        return self.is_working, self.uptime, self.send_alert, self.text_parameter, self.test_output, self.battery
+        return self.battery_voltage, self.battery_low_voltage_alert
 
-    def update(self, is_working, voltage, uptime):
-        self.is_working.update(is_working)
-        self.uptime.update(uptime)
+    def update(self, voltage: float):
         self.battery_voltage.update(voltage)

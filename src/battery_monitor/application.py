@@ -2,52 +2,54 @@ import logging
 import time
 
 from pydoover.docker import Application
-from pydoover import ui
+from pydoover.utils import apply_async_kalman_filter
 
 from .app_config import BatteryMonitorConfig
 from .app_ui import BatteryMonitorUI
-from .app_state import BatteryMonitorState
 
 log = logging.getLogger()
 
+
 class BatteryMonitorApplication(Application):
-    config: BatteryMonitorConfig  # not necessary, but helps your IDE provide autocomplete!
+    config: (
+        BatteryMonitorConfig  # not necessary, but helps your IDE provide autocomplete!
+    )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         self.started = time.time()
-        self.ui = BatteryMonitorUI()
-        self.state = BatteryMonitorState()
+        self.has_sent_alert = False
 
     async def setup(self):
+        self.ui = BatteryMonitorUI(self.config.system_voltage.value)
         self.ui_manager.add_children(*self.ui.fetch())
 
     async def main_loop(self):
-        log.info(f"State is: {self.state.state}")
+        voltage = await self.get_system_voltage()
 
-        # a random value we set inside our simulator. Go check it out in simulators/sample!
-        random_value = self.get_tag("random_value", self.config.sim_app_key.value)
-        log.info("Random value from simulator: %s", random_value)
+        low_alert = self.ui.battery_low_voltage_alert.value
+        if (
+            low_alert is not None
+            and low_alert < self.ui.battery_low_voltage_alert.value
+        ):
+            if not self.has_sent_alert:
+                log.warning(f"Battery voltage is low: {voltage}V. Sending alert")
+                await self.publish_to_channel(
+                    "notifications", f"Battery voltage is low: {voltage}V"
+                )
+                self.has_sent_alert = True
+            else:
+                log.debug(f"Battery voltage is still low: {voltage}V")
 
         self.ui.update(
-            True,
-            random_value,
-            time.time() - self.started,
+            await self.get_system_voltage(),
         )
 
-    @ui.callback("send_alert")
-    async def on_send_alert(self, new_value):
-        log.info(f"Sending alert: {self.ui.test_output.current_value}")
-        await self.publish_to_channel("significantAlerts", self.ui.test_output.current_value)
-        self.ui.send_alert.coerce(None)
-
-    @ui.callback("test_message")
-    async def on_text_parameter_change(self, new_value):
-        log.info(f"New value for test message: {new_value}")
-        # Set the value as an output to the corresponding variable is this case
-        self.ui.test_output.update(new_value)
-
-    @ui.callback("charge_mode")
-    async def on_state_command(self, new_value):
-        log.info(f"New value for state command: {new_value}")
+    @apply_async_kalman_filter(
+        process_variance=0.05,
+        outlier_threshold=0.5,
+    )
+    async def get_system_voltage(self) -> float:
+        # Get the current system voltage
+        return await self.platform_iface.get_system_voltage_async()
