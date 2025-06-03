@@ -51,6 +51,10 @@ class BatteryMonitorUI:
             "low_voltage_alert",
             "Low Voltage Alert",
             *LOW_ALERT_MAP[system_voltage],
+            dual_slider=False,
+            inverted=False,
+            step=0.25,
+            default=10.5,
         )
 
     def fetch(self):
