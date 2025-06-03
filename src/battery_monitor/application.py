@@ -28,6 +28,7 @@ class BatteryMonitorApplication(Application):
 
     async def main_loop(self):
         voltage = await self.get_system_voltage()
+        log.info("Running loop with voltage: %sV", voltage)
 
         low_alert = self.ui.battery_low_voltage_alert.current_value
         if low_alert is not None and low_alert < voltage:
@@ -40,9 +41,7 @@ class BatteryMonitorApplication(Application):
             else:
                 log.debug(f"Battery voltage is still low: {voltage}V")
 
-        self.ui.update(
-            await self.get_system_voltage(),
-        )
+        self.ui.update(voltage)
 
     @apply_async_kalman_filter(
         process_variance=0.05,
