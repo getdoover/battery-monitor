@@ -28,11 +28,8 @@ class BatteryMonitorApplication(Application):
     async def main_loop(self):
         voltage = await self.get_system_voltage()
 
-        low_alert = self.ui.battery_low_voltage_alert.value
-        if (
-            low_alert is not None
-            and low_alert < self.ui.battery_low_voltage_alert.value
-        ):
+        low_alert = self.ui.battery_low_voltage_alert.current_value
+        if low_alert is not None and low_alert < voltage:
             if not self.has_sent_alert:
                 log.warning(f"Battery voltage is low: {voltage}V. Sending alert")
                 await self.publish_to_channel(
