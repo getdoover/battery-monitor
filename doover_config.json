@@ -6,7 +6,7 @@
         "display_name": "Battery Monitor",
         "type": "DEV",
         "visibility": "PUB",
-        "allow_many": true,
+        "allow_many": false,
         "description": "Monitor the voltage of your battery",
         "long_description": "README.md",
         "depends_on": [

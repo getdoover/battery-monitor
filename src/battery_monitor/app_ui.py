@@ -1,6 +1,6 @@
 from pydoover import ui
 
-from src.battery_monitor.app_config import SystemVoltage
+from .app_config import SystemVoltage
 
 LOW_MAP = {
     SystemVoltage.V12: (0, 12),
