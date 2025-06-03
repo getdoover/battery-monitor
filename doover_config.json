@@ -1,4 +1,5 @@
 {
+    "deployment_package_dir": "deployment/",
     "battery_monitor": {
         "key": "0fe5daf9-10b4-4af9-b42f-c92353d18bab",
         "name": "battery_monitor",
@@ -37,6 +38,6 @@
             },
             "additionalElements": true,
             "required": []
-        },
+        }
     }
 }
