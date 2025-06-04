@@ -15,15 +15,15 @@ OK_MAP = {
 }
 
 CHARGING_MAP = {
-    SystemVoltage.V12: (13, 14.5),
+    SystemVoltage.V12: (13, 14.2),
     SystemVoltage.V24: (26, 29),
     SystemVoltage.V48: (52, 58),
 }
 
 HIGH_MAP = {
-    SystemVoltage.V12: (14.5, 100),
-    SystemVoltage.V24: (29, 50),
-    SystemVoltage.V48: (58, 100),
+    SystemVoltage.V12: (14.2, 14.6),
+    SystemVoltage.V24: (29, 32),
+    SystemVoltage.V48: (58, 61),
 }
 
 LOW_ALERT_MAP = {
