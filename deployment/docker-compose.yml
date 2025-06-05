@@ -1,5 +1,5 @@
 services:
-  dahua_camera:
+  battery_monitor:
     image: ghcr.io/getdoover/battery-monitor:main
     restart: unless-stopped
     network_mode: host
