@@ -18,6 +18,8 @@ class BatteryMonitorApplication(Application):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+        self.loop_target_period = 2
+
         self.started = time.time()
         self.has_sent_alert = False
 
@@ -31,7 +33,7 @@ class BatteryMonitorApplication(Application):
         log.info("Running loop with voltage: %sV", voltage)
 
         low_alert = self.ui.battery_low_voltage_alert.current_value
-        if low_alert is not None and low_alert < voltage:
+        if low_alert is not None and voltage is not None and low_alert < voltage:
             if not self.has_sent_alert:
                 log.warning(f"Battery voltage is low: {voltage}V. Sending alert")
                 await self.publish_to_channel(
@@ -43,6 +45,9 @@ class BatteryMonitorApplication(Application):
 
         self.ui.update(voltage)
 
+        ## Update tags
+        # self.set_tag("system_voltage", voltage)
+
     @apply_async_kalman_filter(
         process_variance=0.05,
         outlier_threshold=0.5,
@@ -50,3 +55,7 @@ class BatteryMonitorApplication(Application):
     async def get_system_voltage(self) -> float:
         # Get the current system voltage
         return await self.platform_iface.get_system_voltage_async()
+    
+    async def get_system_temperature(self) -> float:
+        # Get the current system temperature
+        return await self.platform_iface.get_system_temperature_async()
