@@ -35,6 +35,8 @@ LOW_ALERT_MAP = {
 
 class BatteryMonitorUI:
     def __init__(self, system_voltage: SystemVoltage):
+        self.notifs = ui.AlertStream()
+
         self.battery_voltage = ui.NumericVariable(
             "voltage",
             "Battery Voltage",
