@@ -17,8 +17,9 @@ class BatteryMonitorConfig(config.Schema):
             default=SystemVoltage.V12,
         )
 
+        self.position = config.Integer("UI Position", default=100)
 
-if __name__ == "__main__":
+def export():
     BatteryMonitorConfig().export(
-        Path(__file__).parent.parent.parent / "doover_config.json", "battery_monitor"
+        Path(__file__).parents[2] / "doover_config.json", "battery_monitor"
     )

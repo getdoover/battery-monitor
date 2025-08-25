@@ -10,6 +10,7 @@ dependencies = [
 
 [project.scripts]
 doover-app-run = "battery_monitor:main"
+export-config = "battery_monitor.app_config:export"
 
 [build-system]
 requires = ["hatchling"]
