@@ -27,6 +27,7 @@ class BatteryMonitorApplication(Application):
         self.ui = BatteryMonitorUI(self.config.system_voltage.value)
         self.ui_manager.add_children(*self.ui.fetch())
         self.ui_manager.set_display_name("Battery")
+        self.ui_manager.set_position(self.config.position.value)
 
     async def main_loop(self):
         voltage = await self.get_system_voltage()
