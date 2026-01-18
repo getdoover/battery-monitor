@@ -1,51 +1,55 @@
 # Battery Monitor
 
-This application allows you to monitor the state of a battery pack in 12V, 24 or 48V configurations. 
+<!-- ![Doover Logo](https://doover.com/wp-content/uploads/Doover-Logo-Landscape-Navy-padded-small.png) -->
+<img src="https://doover.com/wp-content/uploads/Doover-Logo-Landscape-Navy-padded-small.png" alt="App Icon" style="max-width: 300px;">
 
-It exposes config that allows you to set the pack size, and then sets some reasonable values for "Low", "OK", "Charging" and "High".
+**Monitor the state of a battery system.**
+
+[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/getdoover/battery-monitor)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/getdoover/battery-monitor/blob/main/LICENSE)
+
+[Configuration](#configuration) | [Developer](https://github.com/getdoover/battery-monitor/blob/main/DEVELOPMENT.md) | [Need Help?](#need-help)
+
+<br/>
+
+## Overview
+
+Monitor the state of a battery pack in 12V, 24V, or 48V configurations. Displays voltage status as Low, OK, Charging, or High.
+
+<br/>
+
+## Configuration
+
+| Setting | Description | Default |
+|---------|-------------|---------|
+| **System Voltage** | Battery system voltage configuration | `12V` |
+
+<br/>
+## Integrations
+
+This app works seamlessly with:
+
+- **Platform Interface**: Core Doover platform component
 
 
-### Prerequisites
+<br/>
 
-- Docker and Docker Compose installed
-- Python 3.11 or later (if running locally)
-- Pipenv for managing Python dependencies
+## Need Help?
 
-### Running Locally
+- Email: support@doover.com
+- [Community Forum](https://doover.com/community)
+- [Full Documentation](https://docs.doover.com)
+- [Developer Documentation](https://github.com/getdoover/battery-monitor/blob/main/DEVELOPMENT.md)
 
-1. Run the application:
+<br/>
 
-```bash
-doover app run
-```
+## Version History
 
-## Simulators
+### v1.0.0 (Current)
+- Initial release
 
-The `simulator/` directory contains tools for simulating application behavior. For example:
+<br/>
 
-- `app_config.json`: Sample configuration file for the app.
-- `docker-compose.yml`: Defines services for running the application.
+## License
 
-You can find a sample simulator in the `simulator/sample/` directory. While it is fairly bare-bones, it shows
-positioning of the simulator in the application structure, and how to start the simulator alongside your application.
-
-## Testing
-
-Run the tests using the following command:
-
-```bash
-pytest tests/
-```
-
-## Deployment
-
-The `deployment/` directory contains deployment configurations, including a `docker-compose.yml` file for orchestrating
-services.
-
-## Customization
-
-To create your own Doover application:
-
-1. Modify the application logic in the appropriate directory.
-2. Update the simulator and test configurations as needed.
-3. Adjust deployment configurations to suit your requirements.
+This app is licensed under the [Apache License 2.0](https://github.com/getdoover/battery-monitor/blob/main/LICENSE).
