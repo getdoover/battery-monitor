@@ -10,7 +10,7 @@ dependencies = [
 
 [project.scripts]
 export-config = "battery_monitor.app_config:export"
-doover-app-run = "battery_monitor:main"
+doover-app-run = "battery_monitor:dv1"
 export-config = "battery_monitor.app_config:export"
 
 [build-system]
