@@ -1,6 +1,6 @@
 services:
   battery_monitor:
-    image: ghcr.io/getdoover/battery-monitor:main
+    image: ghcr.io/getdoover/battery-monitor:dv1
     restart: unless-stopped
     network_mode: host
     environment:
