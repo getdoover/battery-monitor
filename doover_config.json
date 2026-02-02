@@ -45,6 +45,16 @@
             },
             "additionalElements": true,
             "required": []
-        }
+        },
+        "lambda_config": {},
+        "owner_org_id": null,
+        "container_registry_profile_id": "93955828574386692",
+        "id": "144014728128153097",
+        "organisation_id": null,
+        "code_repo_id": null,
+        "staging_config": {},
+        "export_config_command": null,
+        "run_command": null,
+        "lambda_arn": null
     }
 }
